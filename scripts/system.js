@@ -1,11 +1,11 @@
 class Sistema{
     constructor(){
         this.paseadores = [
-            new Paseador('0', 'crodriguez', '1189', 'Camila Rodriguez', 8, 'paseador'),
-            new Paseador('1', 'mgomez', '4521', 'Martín Gómez', 12, 'paseador'),
-            new Paseador('2', 'spereira', '7093', 'Sofía Pereira', 6, 'paseador'),
-            new Paseador('3', 'lfernandez', '3348', 'Lucas Fernández', 20, 'paseador'),
-            new Paseador('4', 'vmorales', '6217', 'Valentina Morales', 15, 'paseador'),
+            new Paseador('0', 'mrodriguez', '1189', 'Martin Rodriguez', 8, 'paseador'),
+            new Paseador('1', 'lpereira', '4521', 'Luciano Pereira', 12, 'paseador'),
+            new Paseador('2', 'mrojas', '7093', 'Martina Rojas', 6, 'paseador'),
+            new Paseador('3', 'lzapata', '3348', 'Leonardo Zapata', 20, 'paseador'),
+            new Paseador('4', 'jpinola', '6217', 'Juan Pinola', 15, 'paseador'),
         ];
         this.clientes = [
             new Cliente('0', 'crodriguez', '1189', 'Rocky', 3, 'cliente'),
