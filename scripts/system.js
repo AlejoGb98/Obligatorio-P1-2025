@@ -57,20 +57,16 @@ class Sistema{
         let paseadores = this.paseadores;
         let allUsers = [...paseadores, ...clientes];
         
-        let existe = true;
+        let existe = false;
 
         for(let i = 0; i < allUsers.length; i++){
-            if(allUsers[i].usuario != user){
-                existe = false;
+            if(allUsers[i].usuario == user){
+                existe = true;
             }
         }
         
-        if(!existe){
-            let passOk = comprobarContrasena(pass);
-            
-            if(passOk){
-                this.clientes.push(new Cliente(user, pass, mascota, tamano))
-            }
+        if(!existe && comprobarContrasena(pass)){
+            this.clientes.push(new Cliente(user, pass, mascota, tamano))
         }
     }
 
