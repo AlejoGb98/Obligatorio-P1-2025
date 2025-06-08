@@ -33,9 +33,9 @@ class Sistema{
     }
 
     login(user, pass){
-        let allUsers = [...paseadores, ...clientes];
         let clientes = this.clientes;
         let paseadores = this.paseadores;
+        let allUsers = [...paseadores, ...clientes];
 
         let access = false;
         let userType;
@@ -53,39 +53,47 @@ class Sistema{
     }
 
     signup(user, pass, mascota, tamano){
-        let existe = false;
-        console.log(...paseadores)
-        //let allUsers = [...paseadores, ...clientes];
-
+        let clientes = this.clientes;
+        let paseadores = this.paseadores;
+        let allUsers = [...paseadores, ...clientes];
+        
+        let existe = true;
 
         for(let i = 0; i < allUsers.length; i++){
             if(allUsers[i].usuario != user){
-                console.log('no existen dos usuarios iguales')
+                existe = false;
+            }
+        }
+        
+        if(!existe){
+            let passOk = comprobarContrasena(pass);
+            
+            if(passOk){
+                this.clientes.push(new Cliente(user, pass, mascota, tamano))
             }
         }
     }
 
-
-
-
 }
 
-function comprobarContraseña(pass){
+function comprobarContrasena(pass){
     let mayus = false;
     let minus = false;
     let num = false;
 
     for(let i = 0; i < pass.length; i++){
-        if(pass.charAt[i] === pass.charAt[i].toUpperCase()){
-            mayus = true;
-        } else if(pass.charAt[i] === pass.charAt[i].toLowerCase()){
-            minus = true;
-        } else if(pass.charCodeAt(i) > 47 && pass.charCodeAt(i) < 58){
+        if(pass.charCodeAt(i) > 47 && pass.charCodeAt(i) < 58){
             num = true;
+        } else if(pass.charAt(i) === pass.charAt(i).toUpperCase()){
+            mayus = true;
+        } else if(pass.charAt(i) === pass.charAt(i).toLowerCase()){
+            minus = true;   
         }
     }
 
     if(mayus && minus && num){
         return true;
     }
+
+    return false;
 }
