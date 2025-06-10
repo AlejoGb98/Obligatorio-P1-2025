@@ -2,6 +2,8 @@ window.addEventListener('load', inicio);
 let system = new Sistema()
 
 let logged = false;
+let userActive = null;
+
 
 function inicio(){
     ocultarSecciones();
@@ -39,13 +41,15 @@ function funcLogin(){
     let pass = document.querySelector('#txtPassLogin').value;
 
     let log = system.login(user, pass);
-    
+    console.log(log)
+    return
     if(log.access){
         logged = true;
+        userActive = log.userActive
         document.querySelector("#logout").style.display = 'block';
 
         ocultarSecciones();
-        switch(log.userType){
+        switch(log.userActive.userType){
             case 'cliente' : mostrarSeccion('interfazCliente');
                 break;
             case 'paseador' : mostrarSeccion('interfazPaseador');
@@ -64,7 +68,7 @@ function funcSignup(){
 }
 
 function logOut(){
-    loged = false;
+    logged = false;
     document.querySelector("#logout").style.display = 'none';
     ocultarSecciones();
     mostrarSeccion('login');

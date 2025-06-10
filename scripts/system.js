@@ -33,30 +33,25 @@ class Sistema{
     }
 
     login(user, pass){
-        let clientes = this.clientes;
-        let paseadores = this.paseadores;
-        let allUsers = [...paseadores, ...clientes];
-
+        let userActive = null;
         let access = false;
-        let userType;
-
-        for(let i = 0; i < allUsers.length; i++){
-           if(allUsers[i].usuario === user){
-                if(allUsers[i].pass === pass){
-                    access = true;
-                    userType = allUsers[i].rol;
-                }
-            }
+        
+        if(this.buscarObjeto(this.clientes, 'usuario', user)){
+            userActive = this.buscarObjeto(this.clientes, 'usuario', user); 
+        } else if(this.buscarObjeto(this.paseadores, 'usuario', user)){
+            userActive = this.buscarObjeto(this.paseadores, 'usuario', user);
         }
-
-        return {access, userType}
+        
+        if(userActive){  
+            if(userActive.pass === pass){
+                access = true;
+            }   
+        }
+        console.log(userActive)
+        return {access, userActive}
     }
 
-    signup(user, pass, mascota, tamano){
-        let clientes = this.clientes;
-        let paseadores = this.paseadores;
-        let allUsers = [...paseadores, ...clientes];
-        
+    signup(user, pass, mascota, tamano){       
         let existe = false;
 
         for(let i = 0; i < allUsers.length; i++){
@@ -65,31 +60,42 @@ class Sistema{
             }
         }
         
-        if(!existe && comprobarContrasena(pass)){
+        if(!existe && this.comprobarContrasena(pass)){
             this.clientes.push(new Cliente(user, pass, mascota, tamano))
         }
     }
-
-}
-
-function comprobarContrasena(pass){
-    let mayus = false;
-    let minus = false;
-    let num = false;
-
-    for(let i = 0; i < pass.length; i++){
-        if(pass.charCodeAt(i) > 47 && pass.charCodeAt(i) < 58){
-            num = true;
-        } else if(pass.charAt(i) === pass.charAt(i).toUpperCase()){
-            mayus = true;
-        } else if(pass.charAt(i) === pass.charAt(i).toLowerCase()){
-            minus = true;   
+    
+    comprobarContrasena(pass){
+        let mayus = false;
+        let minus = false;
+        let num = false;
+    
+        for(let i = 0; i < pass.length; i++){
+            if(pass.charCodeAt(i) > 47 && pass.charCodeAt(i) < 58){
+                num = true;
+            } else if(pass.charAt(i) === pass.charAt(i).toUpperCase()){
+                mayus = true;
+            } else if(pass.charAt(i) === pass.charAt(i).toLowerCase()){
+                minus = true;   
+            }
         }
+    
+        if(mayus && minus && num){
+            return true;
+        }
+    
+        return false;
     }
 
-    if(mayus && minus && num){
-        return true;
+    buscarObjeto(array, parametro, busqueda){
+        for(let i = 0; i < array.length; i++){
+            if(array[i][parametro] === busqueda){
+                return array[i]
+            }
+        }
+        return false;
     }
 
-    return false;
+    
+
 }
