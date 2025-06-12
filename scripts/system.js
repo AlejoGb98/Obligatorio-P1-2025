@@ -1,12 +1,12 @@
 class Sistema{
     constructor(){
         this.paseadores = [
-            new Paseador('0', 'mrodriguez', 'Mro12', 'Martin Rodriguez', 12, 
+            new Paseador(0, 'mrodriguez', 'Mro12', 'Martin Rodriguez', 12, 
                 [
                     {'id': 2, 'nombrePerro': 'Gris', 'tamanoPerro': 2, 'estado': true},
                     {'id': 4, 'nombrePerro': 'Milo', 'tamanoPerro': 2, 'estado': true}
                 ]),
-            new Paseador('1', 'lpereira', 'Lp452', 'Luciano Pereira', 36,
+            new Paseador(1, 'lpereira', 'Lp452', 'Luciano Pereira', 36,
                 [
                     {'id': 7, 'nombrePerro': 'Loly', 'tamanoPerro': 2, 'estado': true},
                     {'id': 1, 'nombrePerro': 'Max', 'tamanoPerro': 4, 'estado': true },
@@ -17,6 +17,7 @@ class Sistema{
                     {'id': 12, 'nombrePerro': 'Toby', 'tamanoPerro': 2, 'estado': true },
                     {'id': 13, 'nombrePerro': 'Kiara', 'tamanoPerro': 2, 'estado': false },
                     {'id': 5, 'nombrePerro': 'Zeus', 'tamanoPerro': 4, 'estado': false },
+
                 ] 
              ),
             new Paseador(2, 'mrojas', 'Mrj93', 'Martina Rojas', 12,[]
@@ -82,24 +83,44 @@ class Sistema{
     }
 
     signup(user, pass, mascota, tamano){       
-        let existe = false;
+        let registroExitoso = false;
+        let usuarioExiste = false;
+        let msj = 'Debe ingresar un usuario';
 
-        for(let i = 0; i < allUsers.length; i++){
-            if(allUsers[i].usuario == user){
-                existe = true;
+        if(user.length > 0){
+            for(let i = 0; i < system.clientes.length; i++){
+                if(system.clientes[i].usuario.toLowerCase() === user.toLowerCase()){
+                    msj = 'El usuario ya existe. Por favor, elija otro.'
+                    usuarioExiste = true;
+                }
+            }
+            
+            if(!usuarioExiste){
+                if(this.comprobarContrasena(pass)){
+                    if(mascota.length > 0){
+                        if(tamano > 0){
+                            this.clientes.push(new Cliente(user, pass, mascota, tamano))
+                            registroExitoso = true;
+                            msj = 'Registro exitoso.'
+                        } else{
+                            msj = 'Debe seleccionar un tamaño.'
+                        }
+                    } else{
+                        msj = 'Debe ingresar el nombre de su mascota.'
+                    }
+                } else{
+                    msj = 'La contraseña debe tener al menos una mayuscula, una minuscula y un numero.'
+                }
             }
         }
-        
-        if(!existe && this.comprobarContrasena(pass)){
-            this.clientes.push(new Cliente(user, pass, mascota, tamano))
-        }
+        return {registroExitoso, msj}
     }
     
     comprobarContrasena(pass){
         let mayus = false;
         let minus = false;
         let num = false;
-    
+
         for(let i = 0; i < pass.length; i++){
             if(pass.charCodeAt(i) > 47 && pass.charCodeAt(i) < 58){
                 num = true;

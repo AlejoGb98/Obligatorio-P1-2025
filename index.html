@@ -14,14 +14,14 @@
     <header>
            <img id="logo" src="https://p1.develotion.com/logo.jpg" alt="logo" />
             <nav id="nav">
-                <ul class="navCliente">
+                <ul id='navCliente' class="navCliente">
                     <li id="paseo"><a>Pasear</a></li>
                     <li id="solicitudes"><a>Solicitudes Activas</a></li>
                     <li id="paseadores"><a>Paseadores</a></li>
                     <li id="logout"><a>Cerrar Sesion</a></li>
                 </ul>
 
-                <ul class="navPaseador">
+                <ul id='navPaseador' class="navPaseador">
                     <li><a>Sección 1</a></li>
                     <li><a>Sección 2</a></li>
                     <li><a>Sección 3</a></li>
@@ -34,7 +34,7 @@
         <section id='login' class="log">
             <div id="contenedor">
                 <h2>Inicio de Sesion</h2>
-                <p id="msjError"></p>
+                <p id="msjErrorLogin"></p>
                 <label for="txtUserLogin">Usuario</label>
                 <input type="text" name="" id="txtUserLogin"> <br>
         
@@ -52,6 +52,7 @@
         <section id="signup" class="log">
              <div id="contenedor">
                 <h2>Registro</h2>
+                <p id="msjErrorLoginSignup"></p>
                 <label for="txtUserSignup">Usuario</label>
                 <input type="text" name="" id="txtUserSignup"> <br>
         
@@ -63,7 +64,7 @@
 
                 <label for="slcTamanoSignup">Tamaño del Perro</label>
                 <select name="" id="slcTamanoSignup">
-                    <option value="">--Seleccionar--</option>
+                    <option value="0">--Seleccionar--</option>
                     <option value="1">Chico</option>
                     <option value="2">Mediano</option>
                     <option value="4">Grande</option>
@@ -111,40 +112,15 @@
 
             <article id="verPaseadores" class="articleCliente">
                 <h2>Nuestros Paseadores<h2/>
-                <p>Paseadores</p>
                   <table>
                     <thead>
                         <tr>
-                        <th>Nombre</th>
-                        <th>Precio</th>
-                        <th>Imagen</th>
-                        <th></th>
+                            <th>Nombre de Paseador</th>
+                            <th>Paseos Activos</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                        <td>
-                            Nombre 1
-                        </td>
-                        <td>30</td>
-                        <td><img src="https://place-hold.it/100x100/aaa/imagen.jpg" alt="prueba"></td>
-                        <td>
-                            <input type="button" value="Acción" />
-                        </td>
-                        </tr>
-                        <tr>
-                        <td>
-                            9
-                        </td>
-                        <td>
-                            30
-                        </td>
-                        <td><img src="https://place-hold.it/100x100/aaa/imagen.jpg" alt="prueba"></td>
-                        <td>
-                            <input type="button" value="Accion" />
-                        </td>
-                        </tr>
-    
+                    <tbody id="tbody">
+                        
                     </tbody>
                   </table>
             </article>

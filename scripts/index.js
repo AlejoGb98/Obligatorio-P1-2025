@@ -1,32 +1,22 @@
 window.addEventListener('load', inicio);
 let system = new Sistema()
 
-//let logged = false;
-//let userActive = null;
-let logged = true;
-let userActive = {
-    "usuario": "crodriguez",
-    "pass": "Cr235",
-    "nombrePerro": "Robert",
-    "tamanoPerro": 4,
-    "rol": "cliente",
-    'solicitudActiva': false
-}
-
+let logged = false;
+let userActive = null;
 let contratacionId = 15;
 
 
 
 function inicio(){
     ocultarSecciones('section');
-    ocultarSecciones('.navPaseador');
-    //document.querySelector("#login").style.display = 'block';
+    ocultarSecciones('#nav');
+    document.querySelector("#login").style.display = 'block';
 
     //test cliente
-    mostrarSeccion('interfazCliente');
+    /* mostrarSeccion('interfazCliente');
     ocultarSecciones('.articleCliente');
     mostrarSeccion('solicitarPaseo');
-    verPaseo(); 
+    verPaseo();  */
     //document.querySelector("#logout").style.display = 'none';
 
  
@@ -44,6 +34,7 @@ function inicio(){
     document.querySelector("#solicitudes").addEventListener('click', verSolicitudes);
     document.querySelector("#paseadores").addEventListener('click', verPaseadores);
     document.querySelector("#btnProcesarSolicitud").addEventListener('click', solicitarPaseo);
+    document.querySelector("#btnCancelarSolicitud").addEventListener('click', cancelarSolicitud);
 }
 
 //FUNCIONES DE MUESTREO
@@ -74,14 +65,13 @@ function funcLogin(){
         mostrarSeccion('nav');
 
         if(log.userActive.rol === 'cliente'){
-            mostrarSeccion('interfazCliente');
             ocultarSecciones('.navPaseador');
             ocultarSecciones('.articleCliente');
             mostrarSeccion('solicitarPaseo');
             
         }else{
-            mostrarSeccion('interfazPaseador');
-            mostrarSeccion('.navCliente');
+            mostrarSeccion('navPaseador');
+            ocultarSecciones('.navCliente');
         }
         document.querySelector('#txtUserLogin').value = '';
         document.querySelector('#txtPassLogin').value = '';
@@ -91,27 +81,33 @@ function funcLogin(){
         }
         
     }else{
-        document.querySelector('#msjError').innerHTML = `${log.msj}`;
+        document.querySelector('#msjErrorLogin').innerHTML = `${log.msj}`;
     }
-
-    
 }
 
 function funcSignup(){
     let user = document.querySelector('#txtUserSignup').value;
     let pass = document.querySelector('#txtPassSignup').value;
-    let nombre = document.querySelector('#txtNombreSignup').value;
-    let tamano = document.querySelector('#slcTamanoSignup').value;
+    let mascota = document.querySelector('#txtNombreSignup').value;
+    let tamano = Number(document.querySelector('#slcTamanoSignup').value);
 
-    system.signup(user, pass, nombre, tamano);
+    let log = system.signup(user, pass, mascota, tamano);
+
+    if(!log.registroExitoso){
+        document.querySelector('#msjErrorLoginSignup').innerHTML = `${log.msj}`;
+    }
+
+    console.log(log)
 }
 
 function logOut(){
     logged = false;
+    userActive = false;
     document.querySelector("#logout").style.display = 'none';
     ocultarSecciones('section');
     ocultarSecciones('nav');
     mostrarSeccion('login');
+
 }
 
 function funcSwitchLog(){
@@ -142,32 +138,64 @@ function verSolicitudes(){
 
     if(userActive.solicitudActiva){
         mostrarSeccion('conSolicitud')
+        let paseador = system.paseadores[userActive.solicitudActiva.idPaseador];
+        let datosContratacion;
+        for(const contratacion of paseador.contrataciones){
+            if(contratacion.id == userActive.solicitudActiva.idContratacion){
+                datosContratacion = contratacion;
+            }
+        }
+        
+        if(datosContratacion.estado){
+            document.querySelector("#estadoSolicitud").innerHTML = `El estado de tu solicitud es: Aprobado`;
+            document.querySelector("#btnCancelarSolicitud").disabled = true;
+        }else{
+            document.querySelector("#estadoSolicitud").innerHTML = `El estado de tu solicitud es: Pendiente`;
+        }
+        
+        document.querySelector("#paseadorSolicitud").innerHTML = `Estara a cargo de: ${paseador.nombre}`
     }else{
         mostrarSeccion('sinSolicitud')
     }
+}
 
-    let paseador = system.paseadores[userActive.solicitudActiva.idPaseador];
-    let datosContratacion;
-    for(const contratacion of paseador.contrataciones){
-        if(contratacion.id == userActive.solicitudActiva.idContratacion){
-            datosContratacion = contratacion;
+function cancelarSolicitud(){
+    if(!userActive.solicitudActiva.estado){
+        let contratacionesActualizadas = [];
+        let paseadorId = userActive.solicitudActiva.idPaseador
+     
+        let contratacionesPaseador = system.paseadores[paseadorId].contrataciones
+        console.log(contratacionesPaseador)
+        for(const contratacion of contratacionesPaseador){
+          
+            if(contratacion.id !== userActive.solicitudActiva.idContratacion){
+                contratacionesActualizadas.push(contratacion);
+            }
         }
-    }
-    
-    if(datosContratacion.estado){
-        document.querySelector("#estadoSolicitud").innerHTML = `El estado de tu solicitud es: Aprobado`;
-    }else{
-        document.querySelector("#estadoSolicitud").innerHTML = `El estado de tu solicitud es: Pendiente`;
-    }
-    
-    document.querySelector("#paseadorSolicitud").innerHTML = `Estara a cargo de: ${paseador.nombre}`
+        system.paseadores[paseadorId].contrataciones = contratacionesActualizadas;
+        console.log(system.paseadores[paseadorId].contrataciones)
 
-
+        userActive.solicitudActiva = false;
+        ocultarSecciones('.solicitudes');
+        mostrarSeccion('sinSolicitud')
+        document.querySelector('#btnProcesarSolicitud').disabled = false;
+    }
 }
 
 function verPaseadores(){
     ocultarSecciones('.articleCliente');
     mostrarSeccion('verPaseadores');
+
+    let paseadores = system.paseadores
+    document.querySelector('#tbody').innerHTML = '';
+    for(const paseador of paseadores){
+        document.querySelector('#tbody').innerHTML += `
+            <tr>
+                <td><p>${paseador.nombre}</p></td>
+                <td><p>${paseador.contrataciones.length}</p></td>
+            </tr>
+        `
+    }
 }
 
 function mostrarPaseadores(){
