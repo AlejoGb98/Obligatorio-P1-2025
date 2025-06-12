@@ -99,6 +99,8 @@ function funcSignup(){
 
     if(!log.registroExitoso){
         document.querySelector('#msjErrorLoginSignup').innerHTML = `${log.msj}`;
+    } else{
+        //limpiar imputs y mostrar msj de registro exitoso
     }
 
 }
