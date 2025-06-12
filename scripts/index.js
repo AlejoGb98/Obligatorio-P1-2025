@@ -19,20 +19,17 @@ let contratacionId = 15;
 
 function inicio(){
     ocultarSecciones('section');
-    ocultarSecciones('nav');
+    ocultarSecciones('.navPaseador');
     //document.querySelector("#login").style.display = 'block';
 
     //test cliente
-        mostrarSeccion('interfazCliente');
-        mostrarSeccion('navCliente');
-        ocultarSecciones('.articleCliente');
-        mostrarSeccion('solicitarPaseo');
-        verPaseo();
+    mostrarSeccion('interfazCliente');
+    ocultarSecciones('.articleCliente');
+    mostrarSeccion('solicitarPaseo');
+    verPaseo(); 
     //document.querySelector("#logout").style.display = 'none';
 
-    if(userActive.solicitudActiva){
-        document.querySelector('#btnProcesarSolicitud').disabled = true;
-    }
+ 
 
 
     document.querySelector('#btnLogin').addEventListener('click', funcLogin);
@@ -71,22 +68,27 @@ function funcLogin(){
     if(log.access){
         logged = true;
         userActive = log.userActive
-        console.log(userActive)
         document.querySelector("#logout").style.display = 'block';
 
         ocultarSecciones('section');
+        mostrarSeccion('nav');
+
         if(log.userActive.rol === 'cliente'){
             mostrarSeccion('interfazCliente');
-            mostrarSeccion('navCliente');
+            ocultarSecciones('.navPaseador');
             ocultarSecciones('.articleCliente');
             mostrarSeccion('solicitarPaseo');
             
         }else{
             mostrarSeccion('interfazPaseador');
-            mostrarSeccion('navPaseador');
+            mostrarSeccion('.navCliente');
         }
         document.querySelector('#txtUserLogin').value = '';
         document.querySelector('#txtPassLogin').value = '';
+
+        if(userActive.solicitudActiva){
+            document.querySelector('#btnProcesarSolicitud').disabled = true;
+        }
         
     }else{
         document.querySelector('#msjError').innerHTML = `${log.msj}`;
@@ -108,6 +110,7 @@ function logOut(){
     logged = false;
     document.querySelector("#logout").style.display = 'none';
     ocultarSecciones('section');
+    ocultarSecciones('nav');
     mostrarSeccion('login');
 }
 
@@ -135,8 +138,30 @@ function verPaseo(){
 function verSolicitudes(){
     ocultarSecciones('.articleCliente');
     mostrarSeccion('paseosPendientes');
+    ocultarSecciones('.solicitudes');
 
-    console.log(userActive.solicitudActiva)
+    if(userActive.solicitudActiva){
+        mostrarSeccion('conSolicitud')
+    }else{
+        mostrarSeccion('sinSolicitud')
+    }
+
+    let paseador = system.paseadores[userActive.solicitudActiva.idPaseador];
+    let datosContratacion;
+    for(const contratacion of paseador.contrataciones){
+        if(contratacion.id == userActive.solicitudActiva.idContratacion){
+            datosContratacion = contratacion;
+        }
+    }
+    
+    if(datosContratacion.estado){
+        document.querySelector("#estadoSolicitud").innerHTML = `El estado de tu solicitud es: Aprobado`;
+    }else{
+        document.querySelector("#estadoSolicitud").innerHTML = `El estado de tu solicitud es: Pendiente`;
+    }
+    
+    document.querySelector("#paseadorSolicitud").innerHTML = `Estara a cargo de: ${paseador.nombre}`
+
 
 }
 
@@ -171,9 +196,10 @@ function mostrarPaseadores(){
 }
 
 function solicitarPaseo(){
+    contratacionId++;
     let idPaseador = Number(document.querySelector('#slcPaseador').value);
     userActive.solicitudActiva = {idContratacion: contratacionId, idPaseador: idPaseador, 'estado': false};
-    system.paseadores[idPaseador].contrataciones.push({'id': contratacionId + 1 ,'nombrePerro': userActive.nombrePerro, 'tamanoPerro': userActive.tamanoPerro, 'estado': false});
+    system.paseadores[idPaseador].contrataciones.push({'id': contratacionId ,'nombrePerro': userActive.nombrePerro, 'tamanoPerro': userActive.tamanoPerro, 'estado': false});
     document.querySelector('#btnProcesarSolicitud').disabled = true;
 }
 

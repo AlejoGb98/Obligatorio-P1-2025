@@ -3,34 +3,34 @@ class Sistema{
         this.paseadores = [
             new Paseador('0', 'mrodriguez', 'Mro12', 'Martin Rodriguez', 12, 
                 [
-                    {'id': '2', 'nombrePerro': 'Gris', 'tamanoPerro': 2, 'estado': true},
-                    {'id': '4', 'nombrePerro': 'Milo', 'tamanoPerro': 2, 'estado': true}
+                    {'id': 2, 'nombrePerro': 'Gris', 'tamanoPerro': 2, 'estado': true},
+                    {'id': 4, 'nombrePerro': 'Milo', 'tamanoPerro': 2, 'estado': true}
                 ]),
             new Paseador('1', 'lpereira', 'Lp452', 'Luciano Pereira', 36,
                 [
-                    {'id': '7', 'nombrePerro': 'Loly', 'tamanoPerro': 2, 'estado': true},
-                    {'id': '1', 'nombrePerro': 'Max', 'tamanoPerro': 4, 'estado': true },
-                    {'id': '3', 'nombrePerro': 'Luna', 'tamanoPerro': 2, 'estado': true },
-                    {'id': '8', 'nombrePerro': 'Simba', 'tamanoPerro': 2, 'estado': false },
-                    {'id': '11', 'nombrePerro': 'Nala', 'tamanoPerro': 2, 'estado': false },
-                    {'id': '15', 'nombrePerro': 'Rocky', 'tamanoPerro': 4, 'estado': true },
-                    {'id': '12', 'nombrePerro': 'Toby', 'tamanoPerro': 2, 'estado': true },
-                    {'id': '13', 'nombrePerro': 'Kiara', 'tamanoPerro': 2, 'estado': false },
-                    {'id': '5', 'nombrePerro': 'Zeus', 'tamanoPerro': 4, 'estado': false },
-                ]
+                    {'id': 7, 'nombrePerro': 'Loly', 'tamanoPerro': 2, 'estado': true},
+                    {'id': 1, 'nombrePerro': 'Max', 'tamanoPerro': 4, 'estado': true },
+                    {'id': 3, 'nombrePerro': 'Luna', 'tamanoPerro': 2, 'estado': true },
+                    {'id': 8, 'nombrePerro': 'Simba', 'tamanoPerro': 2, 'estado': false },
+                    {'id': 11, 'nombrePerro': 'Nala', 'tamanoPerro': 2, 'estado': false },
+                    {'id': 15, 'nombrePerro': 'Rocky', 'tamanoPerro': 4, 'estado': true },
+                    {'id': 12, 'nombrePerro': 'Toby', 'tamanoPerro': 2, 'estado': true },
+                    {'id': 13, 'nombrePerro': 'Kiara', 'tamanoPerro': 2, 'estado': false },
+                    {'id': 5, 'nombrePerro': 'Zeus', 'tamanoPerro': 4, 'estado': false },
+                ] 
              ),
-            new Paseador('2', 'mrojas', 'Mrj93', 'Martina Rojas', 12,[]
+            new Paseador(2, 'mrojas', 'Mrj93', 'Martina Rojas', 12,[]
             ),
-            new Paseador('3', 'lzapata', 'Lz334', 'Leonardo Zapata', 8,
+            new Paseador(3, 'lzapata', 'Lz334', 'Leonardo Zapata', 8,
                 [
-                    {'id': '6', 'nombrePerro': 'Pancho', 'tamanoPerro': 2, 'estado': true},
-                    {'id': '14', 'nombrePerro': 'Lola', 'tamanoPerro': 1, 'estado': false },
-                    {'id': '9', 'nombrePerro': 'Chispa', 'tamanoPerro': 1, 'estado': false }
+                    {'id': 6, 'nombrePerro': 'Pancho', 'tamanoPerro': 2, 'estado': true},
+                    {'id': 14, 'nombrePerro': 'Lola', 'tamanoPerro': 1, 'estado': false },
+                    {'id': 9, 'nombrePerro': 'Chispa', 'tamanoPerro': 1, 'estado': false }
                 ]
             ),
-            new Paseador('4', 'jpinola', 'Jp617', 'Juan Pinola', 7,
+            new Paseador(4, 'jpinola', 'Jp617', 'Juan Pinola', 7,
                 [
-                    {'id': '10', 'nombrePerro': 'Dorito', 'tamanoPerro': 1, 'estado': false}
+                    {'id': 10, 'nombrePerro': 'Dorito', 'tamanoPerro': 1, 'estado': false}
                 ]
             ),
         ];
