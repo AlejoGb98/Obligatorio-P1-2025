@@ -13,7 +13,15 @@
 <body>
     <header>
            <img id="logo" src="https://p1.develotion.com/logo.jpg" alt="logo" />
-            <nav>
+            <nav id="navCliente">
+                <ul id="navPrincipal">
+                    <li id="paseo"><a>Pasear</a></li>
+                    <li id="solicitudes"><a>Solicitudes Activas</a></li>
+                    <li id="paseadores"><a>Paseadores</a></li>
+                    <li id="logout"><a>Cerrar Sesion</a></li>
+                </ul>
+            </nav>
+             <nav id="navPaseador">
                 <ul id="navPrincipal">
                     <li><a>Sección 1</a></li>
                     <li><a>Sección 2</a></li>
@@ -27,6 +35,7 @@
         <section id='login' class="log">
             <div id="contenedor">
                 <h2>Inicio de Sesion</h2>
+                <p id="msjError"></p>
                 <label for="txtUserLogin">Usuario</label>
                 <input type="text" name="" id="txtUserLogin"> <br>
         
@@ -74,44 +83,72 @@
         </section>
 
         <section id="interfazCliente">
-            <h2>Cliente</h2>
+                       
+            <article id='solicitarPaseo' class="articleCliente">
+                <h2>Solicitar un Paseo</>
+                <h3 id="msjBienvenida"></h3><br>
+            
+                <label for="slcPaseador">Por favor, elije entre los paseadores disponibles</label>
+                <select id="slcPaseador">
+                <option value="">--Seleccionar--</option>
+                </select> <br>
 
-            <h3>Resumen</h3>
-            <table>
-                <thead>
-                    <tr>
-                    <th>Nombre</th>
-                    <th>Precio</th>
-                    <th>Imagen</th>
-                    <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    <td>
-                        Nombre 1
-                    </td>
-                    <td>30</td>
-                    <td><img src="https://place-hold.it/100x100/aaa/imagen.jpg" alt="prueba"></td>
-                    <td>
-                        <input type="button" value="Acción" />
-                    </td>
-                    </tr>
-                    <tr>
-                    <td>
-                        9
-                    </td>
-                    <td>
-                        30
-                    </td>
-                    <td><img src="https://place-hold.it/100x100/aaa/imagen.jpg" alt="prueba"></td>
-                    <td>
-                        <input type="button" value="Accion" />
-                    </td>
-                    </tr>
+                <input type="button" name="" id="btnProcesarSolicitud" value="Realizar Solicitud">
 
-                </tbody>
-            </table>
+            </article>
+
+            <article id="paseosPendientes" class="articleCliente">
+                <h2>Solicitudes en Curso</h2>
+                <div id="sinSolicitud" class="solicitudes">
+                    <p>Por el momento no tienes ninguna solicitud pendiente.</p>
+                </div>
+
+                <div id="conSolicitud" class="solicitudes">
+                    <p id="estadoSolicitud">El estado de tu solicitud es: </p>
+                    <p id="paseadorSolitud">Estara a cargo de: </p>
+                    <input type="button" name="" id="btnCancelarSolicitud" value="Cancelar Solicitud">
+                </div>
+            </article>
+
+            <article id="verPaseadores" class="articleCliente">
+                <h2>Nuestros Paseadores<h2/>
+                <p>Paseadores</p>
+                  <table>
+                    <thead>
+                        <tr>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Imagen</th>
+                        <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <td>
+                            Nombre 1
+                        </td>
+                        <td>30</td>
+                        <td><img src="https://place-hold.it/100x100/aaa/imagen.jpg" alt="prueba"></td>
+                        <td>
+                            <input type="button" value="Acción" />
+                        </td>
+                        </tr>
+                        <tr>
+                        <td>
+                            9
+                        </td>
+                        <td>
+                            30
+                        </td>
+                        <td><img src="https://place-hold.it/100x100/aaa/imagen.jpg" alt="prueba"></td>
+                        <td>
+                            <input type="button" value="Accion" />
+                        </td>
+                        </tr>
+    
+                    </tbody>
+                  </table>
+            </article>
 
         </section>
     </main>
