@@ -67,11 +67,15 @@ function funcLogin(){
         if(log.userActive.rol === 'cliente'){
             ocultarSecciones('.navPaseador');
             ocultarSecciones('.articleCliente');
+            mostrarSeccion('interfazCliente')
             mostrarSeccion('solicitarPaseo');
             
         }else{
-            mostrarSeccion('navPaseador');
             ocultarSecciones('.navCliente');
+            ocultarSecciones('.articlePaseador');
+            mostrarSeccion('interfazPaseador');
+            mostrarSeccion('navPaseador');
+
         }
         document.querySelector('#txtUserLogin').value = '';
         document.querySelector('#txtPassLogin').value = '';
@@ -97,7 +101,6 @@ function funcSignup(){
         document.querySelector('#msjErrorLoginSignup').innerHTML = `${log.msj}`;
     }
 
-    console.log(log)
 }
 
 function logOut(){
