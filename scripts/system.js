@@ -70,18 +70,38 @@ class Sistema{
         return {access, userActive, msj}
     }
 
-    signup(user, pass, mascota, tamano){       
-        let existe = false;
+    signup(user, pass, mascota, tamano){
+        let registroExitoso = false;
+        let usuarioExiste = false;
+        let msj = 'Debe ingresar un usuario';
 
-        for(let i = 0; i < allUsers.length; i++){
-            if(allUsers[i].usuario == user){
-                existe = true;
+        if(user.length > 0){
+            for(let i = 0; i < system.clientes.length; i++){
+                if(system.clientes[i].usuario.toLowerCase() === user.toLowerCase()){
+                    msj = 'El usuario ya existe. Por favor, elija otro.'
+                    usuarioExiste = true;
+                }
+            }
+            
+            if(!usuarioExiste){
+                if(this.comprobarContrasena(pass)){
+                    if(mascota.length > 0){
+                        if(tamano > 0){
+                            this.clientes.push(new Cliente(user, pass, mascota, tamano))
+                            registroExitoso = true;
+                            msj = 'Registro exitoso.'
+                        } else{
+                            msj = 'Debe seleccionar un tamaño.'
+                        }
+                    } else{
+                        msj = 'Debe ingresar el nombre de su mascota.'
+                    }
+                } else{
+                    msj = 'La contraseña debe tener al menos una mayuscula, una minuscula y un numero.'
+                }
             }
         }
-        
-        if(!existe && this.comprobarContrasena(pass)){
-            this.clientes.push(new Cliente(user, pass, mascota, tamano))
-        }
+        return {registroExitoso, msj}
     }
     
     comprobarContrasena(pass){
