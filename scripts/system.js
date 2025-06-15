@@ -1,6 +1,6 @@
 class Sistema{
     constructor(){
-        this.paseadores = [
+      this.paseadores = [
             new Paseador('0', 'mrodriguez', 'Mro12', 'Martin Rodriguez', 12, 
                 [
                     ,
@@ -17,6 +17,7 @@ class Sistema{
                     {'id': 12, 'nombrePerro': 'Toby', 'tamanoPerro': 4, 'estado': true },
                     {'id': 13, 'nombrePerro': 'Kiara', 'tamanoPerro': 4, 'estado': false },
                     {'id': 5, 'nombrePerro': 'Zeus', 'tamanoPerro': 4, 'estado': false },
+
                 ] 
              ),
             new Paseador(2, 'mrojas', 'Mrj93', 'Martina Rojas', 12,[]
@@ -34,13 +35,7 @@ class Sistema{
                 ]
             ),
         ];
-
-        this.clientes = [
-            new Cliente('crodriguez', 'Cr235', 'Rocky', 2),
-            new Cliente('mgomez', 'Mg352', 'Luna', 2),
-            new Cliente('spereira', 'Sp368', 'Simba', 4),
-            new Cliente('lfernandez', 'Lf178', 'Nala', 2),
-            new Cliente('vmorales', 'Vm261', 'Max', 4),
+            this.clientes = [
             new Cliente('tramirez', 'Tr908', 'Milo', 2),
             new Cliente('fcastro', 'Fc147', 'Kiara', 4),
             new Cliente('mlopez', 'Ml385', 'Toby', 4),
@@ -49,14 +44,8 @@ class Sistema{
             new Cliente('mluna', 'Ml563', 'Lola', 1),
             new Cliente('rgarcia', 'Rg802', 'Chispa', 1),
             new Cliente('ccardozo', 'Cc194', 'Bobby', 4),
-            new Cliente('jmartinez', 'Jm478', 'Sasha', 1),
-            new Cliente('adelgado', 'Ad657', 'Rocco', 1),
-            new Cliente('nfernandez', 'Nf340', 'Mora', 2),
-            new Cliente('emendez', 'Em720', 'Zeus', 4),
-            new Cliente('fpaz', 'Fp133', 'Fiona', 4),
-            new Cliente('rsilva', 'Rs984', 'Greta', 1),
-            new Cliente('jrios', 'Jr251', 'Duke', 4),
-        ];
+            new Cliente('jmartinez', 'Jm478', 'Sasha', 1)
+        ]
     }
 
     login(user, pass){
