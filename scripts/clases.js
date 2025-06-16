@@ -1,11 +1,11 @@
 class Cliente{
-    constructor(usuario, pass, nombrePerro, tamanoPerro){
+    constructor(usuario, pass, nombrePerro, tamanoPerro, solicitudActiva){
         this.usuario = usuario;
         this.pass = pass;
         this.nombrePerro = nombrePerro;
         this.tamanoPerro = tamanoPerro;
+        this.solicitudActiva = solicitudActiva;
         this.rol = 'cliente';
-        this.solicitudActiva = false;
     }
 
 }

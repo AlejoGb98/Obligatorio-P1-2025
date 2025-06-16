@@ -22,10 +22,9 @@
                 </ul>
 
                 <ul id='navPaseador' class="navPaseador">
-                    <li><a>Sección 1</a></li>
-                    <li><a>Sección 2</a></li>
-                    <li><a>Sección 3</a></li>
-                    <li id="logout">Cerrar Sesion</li>
+                    <li id="paseosPendientesNav"><a>Paseos Pendientes</a></li>
+                    <li id="paseosAceptadosNav"><a>Paseos Aceptados</a></li>
+                    <li id="logout"><a>Cerrar Sesion</a></li>
                 </ul>
             </nav>
     </header>
@@ -79,7 +78,44 @@
         </section>
 
         <section id="interfazPaseador">
-            <h2>Paseador</h2>
+
+            <article id='paseosPendientesPaseador' class="articlePaseador">
+                <h2>Paseos Pendientes</h2>
+                  <table>
+                    <thead>
+                        <tr>
+                            <th>N Solicitud</th>
+                            <th>Nombre del Perro</th>
+                            <th>Tamaño</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyPendientes">
+                       
+                    </tbody>
+                  </table>
+            </article>
+
+            <article id="paseosAceptadosPaseador" class="articlePaseador">
+                <h2>Paseos Aceptados</h2>
+                <p id="cuposOcupados">Cupos Ocupados: </p>
+                <p id="cuposMaximo">Limite de Cupos: </p>
+                <p id="porcentajeOcupado">Ocupacion: </p>
+
+                <div class="listaPaseosAceptados">
+                    <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre del Perro</th>
+                            <th>Tamaño</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyAceptados">
+                       
+                    </tbody>
+                  </table>
+                </div>
+            </article>
+
         </section>
 
         <section id="interfazCliente">
@@ -119,7 +155,7 @@
                             <th>Paseos Activos</th>
                         </tr>
                     </thead>
-                    <tbody id="tbody">
+                    <tbody id="tbodyCliente">
                         
                     </tbody>
                   </table>

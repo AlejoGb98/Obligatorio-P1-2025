@@ -57,6 +57,7 @@ li {
   margin: 5px;
   color: #f5f5f7;
   float: left;
+
 }
 
 header img {
@@ -65,7 +66,7 @@ header img {
   border:1px solid #888;
 }
 
-#navPrincipal a {
+a {
   cursor: pointer;
   color: #fafafa;
   font-size: 14px;
