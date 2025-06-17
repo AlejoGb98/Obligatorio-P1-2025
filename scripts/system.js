@@ -1,49 +1,65 @@
 class Sistema{
     constructor(){
-      this.paseadores = [
-            new Paseador(0, 'mrodriguez', 'Mro12', 'Martin Rodriguez', 12, 
-                [
-                    {'id': 4, 'nombrePerro': 'Milo', 'tamanoPerro': 2, 'estado': true}
-                ]),
-            new Paseador(1, 'lpereira', 'Lp452', 'Luciano Pereira', 36,
-                [
-                    {'id': 1, 'nombrePerro': 'Max', 'tamanoPerro': 4, 'estado': true },
-                    {'id': 3, 'nombrePerro': 'Luna', 'tamanoPerro': 2, 'estado': true },
-                    {'id': 5, 'nombrePerro': 'Zeus', 'tamanoPerro': 4, 'estado': false },
-                    {'id': 7, 'nombrePerro': 'Coco', 'tamanoPerro': 2, 'estado': true}, 
-                    {'id': 8, 'nombrePerro': 'Simba', 'tamanoPerro': 4, 'estado': false },
-                    {'id': 11, 'nombrePerro': 'Nala', 'tamanoPerro': 2, 'estado': false },
-                    {'id': 12, 'nombrePerro': 'Toby', 'tamanoPerro': 4, 'estado': true },
-                    {'id': 13, 'nombrePerro': 'Kiara', 'tamanoPerro': 4, 'estado': false },
-                    {'id': 15, 'nombrePerro': 'Rocky', 'tamanoPerro': 2, 'estado': true },
-
-                ] 
-             ),
-            new Paseador(2, 'mrojas', 'Mrj93', 'Martina Rojas', 12,[]
-            ),
-            new Paseador(3, 'lzapata', 'Lz334', 'Leonardo Zapata', 8,
-                [
-                    {'id': 6, 'nombrePerro': 'Bruno', 'tamanoPerro': 2, 'estado': false},
-                    {'id': 9, 'nombrePerro': 'Chispa', 'tamanoPerro': 1, 'estado': false },
-                    {'id': 14, 'nombrePerro': 'Lola', 'tamanoPerro': 4, 'estado': false }
-                ]
-            ),
-            new Paseador(4, 'jpinola', 'Jp617', 'Juan Pinola', 7,
-                [
-                    {'id': 10, 'nombrePerro': 'Sasha', 'tamanoPerro': 1, 'estado': false}
-                ]
-            ),
+        this.paseadores = [
+            new Paseador(1, 'mrodriguez', 'Mro12', 'Martin Rodriguez', 12,),
+            new Paseador(2, 'lpereira', 'Lp452', 'Luciano Pereira', 36),
+            new Paseador(3, 'mrojas', 'Mrj93', 'Martina Rojas', 12),
+            new Paseador(4, 'lzapata', 'Lz334', 'Leonardo Zapata', 8),
+            new Paseador(5, 'jpinola', 'Jp617', 'Juan Pinola', 7),
         ];
-            this.clientes = [
-            new Cliente('tramirez', 'Tr908', 'Milo', 2, {'idContratacion': 4, 'idPaseador': 0, 'estado': true }),
-            new Cliente('fcastro', 'Fc147', 'Kiara', 4, {'idContratacion': 13, 'idPaseador': 1, 'estado': false }),
-            new Cliente('mlopez', 'Ml385', 'Toby', 4),
-            new Cliente('jnavarro', 'Jn276', 'Coco', 2), 
-            new Cliente('dcabrera', 'Dc863', 'Bruno', 2), 
-            new Cliente('mluna', 'Ml563', 'Lola', 4),
-            new Cliente('rgarcia', 'Rg802', 'Chispa', 1),
-            new Cliente('ccardozo', 'Cc194', 'Bobby', 4),
-            new Cliente('jmartinez', 'Jm478', 'Sasha', 1)
+        this.clientes = [
+            new Cliente(1, 'tramirez', 'Tr908', 'Milo', 2),
+            new Cliente(2, 'fcastro', 'Fc147', 'Kiara', 4),
+            new Cliente(3, 'mlopez', 'Ml385', 'Toby', 4),
+            new Cliente(4, 'jnavarro', 'Jn276', 'Coco', 2), 
+            new Cliente(5, 'dcabrera', 'Dc863', 'Bruno', 2), 
+            new Cliente(6, 'mluna', 'Ml563', 'Lola', 4),
+            new Cliente(7, 'rgarcia', 'Rg802', 'Chispa', 1),
+            new Cliente(8, 'ccardozo', 'Cc194', 'Bobby', 4),
+            new Cliente(9, 'jmartinez', 'Jm478', 'Sasha', 1),
+            new Cliente(10, 'rmorales', 'Rm253', 'Pancho', 2), 
+            new Cliente(11, 'alopez', 'Al243', 'Mango', 4),
+            new Cliente(12, 'mramirez', 'Mr406', 'Rosqui', 1),
+            new Cliente(13, 'cpardo', 'Cp244', 'Lima', 2),
+            new Cliente(14, 'vrodriguez', 'Vr298', 'Gema', 1),
+            new Cliente(15, 'srivas', 'Sr183', 'Pompon', 2),
+            new Cliente(16, 'vnunez', 'Vn133', 'Pichon', 4),
+            new Cliente(17, 'mherrera', 'Mh118', 'Zeus', 4),
+            new Cliente(18, 'jfernandez', 'Jf925', 'Chiqui', 1),
+            new Cliente(19, 'rramirez', 'Rr200', 'Morte', 4),
+            new Cliente(20, 'jracedo', 'Jr492', 'Dora', 2)
+        ]
+        this.contrataciones = [
+            new Contratacion(1, {'id': 2, 'usuario': 'lpereira', 'pass': 'Lp452', 'nombre': 'Luciano Pereira', 'cupos': 36, 'rol': 'paseador'},
+                                {'id': 10, 'usuario': 'rmorales', 'pass': 'Rm253', 'nombrePerro': 'Pancho', 'tamanoPerro': 2 }, 'Aceptado'),
+            new Contratacion(3, {'id': 2, 'usuario': 'lpereira', 'pass': 'Lp452', 'nombre': 'Luciano Pereira', 'cupos': 36, 'rol': 'paseador'}, 
+                                {'id': 15, 'usuario': 'srivas', 'pass': 'Sr183', 'nombrePerro': 'Pompon', 'tamanoPerro': 2 },'Aceptado'),
+            new Contratacion(5, {'id': 2, 'usuario': 'lpereira', 'pass': 'Lp452', 'nombre': 'Luciano Pereira', 'cupos': 36, 'rol': 'paseador'},
+                                {'id': 17, 'usuario': 'mherrera', 'pass': 'Mh118', 'nombrePerro': 'Zeus', 'tamanoPerro': 4 },'Pendiente'),
+            new Contratacion(7, {'id': 2, 'usuario': 'lpereira', 'pass': 'Lp452', 'nombre': 'Luciano Pereira', 'cupos': 36, 'rol': 'paseador'},
+                                {'id': 4, 'usuario': 'jnavarro', 'pass': 'Jn276', 'nombrePerro': 'Coco', 'tamanoPerro': 2 }, 'Aceptado'),
+            new Contratacion(8, {'id': 2, 'usuario': 'lpereira', 'pass': 'Lp452', 'nombre': 'Luciano Pereira', 'cupos': 36, 'rol': 'paseador'},
+                                {'id': 15, 'usuario': 'srivas', 'pass': 'Sr183', 'nombrePerro': 'Pompon', 'tamanoPerro': 2 },'Pendiente'),
+            new Contratacion(11, {'id': 2, 'usuario': 'lpereira', 'pass': 'Lp452', 'nombre': 'Luciano Pereira', 'cupos': 36, 'rol': 'paseador'},
+                                 {'id': 13, 'usuario': 'cpardo', 'pass': 'Cp244', 'nombrePerro': 'Lima', 'tamanoPerro': 2 },'Pendiente'),
+            new Contratacion(12, {'id': 2, 'usuario': 'lpereira', 'pass': 'Lp452', 'nombre': 'Luciano Pereira', 'cupos': 36, 'rol': 'paseador'},
+                                 {'id': 3, 'usuario': 'mlopez', 'pass': 'Ml385', 'nombrePerro': 'Toby', 'tamanoPerro': 4 },'Aceptado'),
+            new Contratacion(13, {'id': 2, 'usuario': 'lpereira', 'pass': 'Lp452', 'nombre': 'Luciano Pereira', 'cupos': 36, 'rol': 'paseador'},
+                                 { 'id': 2, 'usuario': 'fcastro', 'pass': 'Fc147', 'nombrePerro': 'Kiara', 'tamanoPerro': 4 }, 'Pendiente'),
+            new Contratacion(15, {'id': 2, 'usuario': 'lpereira', 'pass': 'Lp452', 'nombre': 'Luciano Pereira', 'cupos': 36, 'rol': 'paseador'},
+                                 {'id': 8, 'usuario': 'ccardozo', 'pass': 'Cc194', 'nombrePerro': 'Bobby', 'tamanoPerro': 4 },'Aceptado'),
+            new Contratacion(6, {'id': 3, 'usuario': 'mrojas', 'pass': 'Mrj93', 'nombre': 'Martina Rojas', 'cupos': 12, 'rol': 'paseador'},
+                                {'id': 5, 'usuario': 'dcabrera', 'pass': 'Dc863', 'nombrePerro': 'Bruno', 'tamanoPerro': 2 },'Pendiente'),
+            new Contratacion(9, {'id': 3, 'usuario': 'mrojas', 'pass': 'Mrj93', 'nombre': 'Martina Rojas', 'cupos': 12, 'rol': 'paseador'},
+                                { 'id': 7, 'usuario': 'rgarcia', 'pass': 'Rg802', 'nombrePerro': 'Chispa', 'tamanoPerro': 1 },'Pendiente'),
+            new Contratacion(14, {'id': 3, 'usuario': 'mrojas', 'pass': 'Mrj93', 'nombre': 'Martina Rojas', 'cupos': 12, 'rol': 'paseador'},
+                                { 'id': 6, 'usuario': 'mluna', 'pass': 'Ml563', 'nombrePerro': 'Lola', 'tamanoPerro': 4 }, 'Pendiente'),
+            new Contratacion(10, {'id': 4, 'usuario': 'lzapata', 'pass': 'Lz334', 'nombre': 'Leonardo Zapata', 'cupos': 8, 'rol': 'paseador'},
+                                 {'id': 9, 'usuario': 'jmartinez', 'pass': 'Jm478', 'nombrePerro': 'Sasha', 'tamanoPerro': 1 }, 'Pendiente'),
+            new Contratacion(4, {'id': 4, 'usuario': 'lzapata', 'pass': 'Lz334', 'nombre': 'Leonardo Zapata', 'cupos': 8, 'rol': 'paseador'}, 
+                                {'id': 1, 'usuario': 'tramirez', 'pass': 'Tr908', 'nombrePerro': 'Milo', 'tamanoPerro': 2 }, 'Aceptado'),
+            new Contratacion(2, {'id': 1, 'usuario': 'mrodriguez', 'pass': 'Mro12', 'nombre': 'Martin Rodriguez', 'cupos': 12, 'rol': 'paseador'},
+                                {'id': 12, 'usuario': 'mramirez', 'pass': 'Mr406', 'nombrePerro': 'Rosqui', 'tamanoPerro': 1 },'Pendiente')
         ]
     }
 
@@ -133,7 +149,4 @@ class Sistema{
         }
         return false;
     }
-
-    
-
 }

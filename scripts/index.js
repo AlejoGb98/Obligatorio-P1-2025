@@ -66,7 +66,7 @@ function funcLogin(){
             mostrarSeccion('interfazCliente')
             ocultarSecciones('.articleCliente');
             mostrarSeccion('solicitarPaseo');
-            mostrarPaseadores();
+            verPaseo();
             
         }else{
             ocultarSecciones('.navCliente');
@@ -77,10 +77,6 @@ function funcLogin(){
         }
         document.querySelector('#txtUserLogin').value = '';
         document.querySelector('#txtPassLogin').value = '';
-
-        if(userActive.solicitudActiva){
-            document.querySelector('#btnProcesarSolicitud').disabled = true;
-        }
         
     }else{
         document.querySelector('#msjErrorLogin').innerHTML = `${log.msj}`;
@@ -134,89 +130,96 @@ function verPaseo(){
     mostrarPaseadores();
 }
 
-function verSolicitudes(){
+function verSolicitudes(){ //Pronto, a testear
     ocultarSecciones('.articleCliente');
     mostrarSeccion('paseosPendientes');
     ocultarSecciones('.solicitudes');
+    let datosContratacion = false;
 
-    if(userActive.solicitudActiva){
-        mostrarSeccion('conSolicitud')
-        let paseador = system.paseadores[userActive.solicitudActiva.idPaseador];
-        let datosContratacion;
-        for(const contratacion of paseador.contrataciones){
-            if(contratacion.id == userActive.solicitudActiva.idContratacion){
-                datosContratacion = contratacion;
-            }
+    for(const contratacion of system.contrataciones){
+        if(contratacion.datosCliente.id === userActive.id){
+            datosContratacion = contratacion;
         }
-        
-        if(datosContratacion.estado){
-            document.querySelector("#estadoSolicitud").innerHTML = `El estado de tu solicitud es: Aprobado`;
+    }
+   
+    if(datosContratacion){
+        mostrarSeccion('conSolicitud');
+        document.querySelector("#estadoSolicitud").innerHTML = `El estado de tu solicitud es: ${datosContratacion.estado}`;
+        document.querySelector("#paseadorSolicitud").innerHTML = `El paseo estara a cargo de ${datosContratacion.datosPaseador.nombre}`;
+        if(datosContratacion.estado === 'Aceptado'){
             document.querySelector("#btnCancelarSolicitud").disabled = true;
-        }else{
-            document.querySelector("#estadoSolicitud").innerHTML = `El estado de tu solicitud es: Pendiente`;
         }
-        
-        document.querySelector("#paseadorSolicitud").innerHTML = `Estara a cargo de: ${paseador.nombre}`
     }else{
         mostrarSeccion('sinSolicitud')
     }
 }
 
-function cancelarSolicitud(){
-    if(!userActive.solicitudActiva.estado){
-        let contratacionesActualizadas = [];
-        let paseadorId = userActive.solicitudActiva.idPaseador
-     
-        let contratacionesPaseador = system.paseadores[paseadorId].contrataciones
-        console.log(contratacionesPaseador)
-        for(const contratacion of contratacionesPaseador){
-          
-            if(contratacion.id !== userActive.solicitudActiva.idContratacion){
-                contratacionesActualizadas.push(contratacion);
-            }
+function cancelarSolicitud(){ //Pronto, a testear
+    
+    for(const contratacion of system.contrataciones){
+        if(contratacion.datosCliente.id === userActive.id && contratacion.estado === 'Pendiente'){
+            contratacion.estado = 'Cancelada';
+            alert('Se ha cancelado la solicitud.')
+            ocultarSecciones('.solicitudes');
+            mostrarSeccion('sinSolicitud')
+            document.querySelector('#btnProcesarSolicitud').disabled = false;
         }
-        system.paseadores[paseadorId].contrataciones = contratacionesActualizadas;
-        console.log(system.paseadores[paseadorId].contrataciones)
-
-        userActive.solicitudActiva = false;
-        ocultarSecciones('.solicitudes');
-        mostrarSeccion('sinSolicitud')
-        document.querySelector('#btnProcesarSolicitud').disabled = false;
     }
 }
 
-function verPaseadores(){
+function verPaseadores(){ //Pronto, a testear
     ocultarSecciones('.articleCliente');
     mostrarSeccion('verPaseadores');
+    document.querySelector('#tbodyCliente').innerHTML = ''
 
-    let paseadores = system.paseadores
-    document.querySelector('#tbodyCliente').innerHTML = '';
-    for(const paseador of paseadores){
+    for(const paseador of system.paseadores){
+        let perros = 0;
+        for(const contratacion of system.contrataciones){
+            if(contratacion.idPaseador === paseador.id){
+                perros++
+            }
+        }
+        
         document.querySelector('#tbodyCliente').innerHTML += `
             <tr>
                 <td><p>${paseador.nombre}</p></td>
-                <td><p>${paseador.contrataciones.length}</p></td>
-            </tr>
-        `
+                <td><p>${perros}</p></td>
+            </tr>`
     }
 }
 
-function mostrarPaseadores(){
+function mostrarPaseadores(){ //Pronto, dividir en funciones tamanoPerro y calcular cupos disponibles
     let paseadoresAptos = []
+    
+    for(const contratacion of system.contrataciones){
+        if(contratacion.datosCliente.id === userActive.id){
+            if(contratacion.estado === 'Aceptado' || contratacion.estado === 'Pendiente')
+            document.querySelector('#btnProcesarSolicitud').disabled = true;
+        }
+    }
 
     for(const paseador of system.paseadores){
-        //comprobar tamanoPerro vs cuposDisponibles
-        if(paseador.cupos >= userActive.tamanoPerro){
+        let cuposCompletos = 0;
+        let contratacionesPaseador = [];
+
+        for(const contratacion of system.contrataciones){
+            contratacionesPaseador.push(contratacion)
+            if(paseador.id === contratacion.datosPaseador.id && contratacion.estado === 'Aceptado'){
+                cuposCompletos += contratacion.tamanoPerro;
+            }
+        }
+
+        if(cuposCompletos + userActive.tamanoPerro <= paseador.cupos){
             let apto = true;
-            for(const contratacion of paseador.contrataciones){ 
-                if(contratacion.estado && contratacion.tamanoPerro + userActive.tamanoPerro === 5){
-                apto = false; 
-               }
+            for(const contratacion of contratacionesPaseador){ 
+                if(contratacion.tamanoPerro + userActive.tamanoPerro === 5){
+                    apto = false; 
+                }
             }
 
-        if(apto){ 
-            paseadoresAptos.push(paseador)
-        }
+            if(apto){ 
+                paseadoresAptos.push(paseador)
+            }
        }
     }
    
@@ -229,8 +232,9 @@ function mostrarPaseadores(){
 function solicitarPaseo(){
     contratacionId++;
     let idPaseador = Number(document.querySelector('#slcPaseador').value);
-    userActive.solicitudActiva = {idContratacion: contratacionId, idPaseador: idPaseador, 'estado': false};
-    system.paseadores[idPaseador].contrataciones.push({'id': contratacionId ,'nombrePerro': userActive.nombrePerro, 'tamanoPerro': userActive.tamanoPerro, 'estado': false});
+    let datosPaseador = system.buscarObjeto(system.paseadores, 'id', idPaseador);
+    
+    system.contrataciones.push(new Contratacion(contratacionId, datosPaseador, userActive, 'Pendiente'));
     document.querySelector('#btnProcesarSolicitud').disabled = true;
 }
 
