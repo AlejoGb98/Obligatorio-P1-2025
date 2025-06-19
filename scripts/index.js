@@ -10,15 +10,13 @@ function inicio(){
     ocultarSecciones('section');
     ocultarSecciones('#nav');
     document.querySelector("#login").style.display = 'block';
-    
-  
 
     document.querySelector('#btnLogin').addEventListener('click', funcLogin);
     document.querySelector('#btnSignup').addEventListener('click', funcSignup);
-    document.querySelector("#logout").addEventListener('click', logOut);
     document.querySelector("#btnToLogin").addEventListener('click', funcSwitchLog);
     document.querySelector("#btnToSignup").addEventListener('click', funcSwitchLog);
-    document.querySelector("#logout").addEventListener('click', logOut);
+    document.querySelector("#logoutCliente").addEventListener('click', logOut);
+    document.querySelector("#logoutPaseador").addEventListener('click', logOut);
 
     //Botones cliente
     document.querySelector("#paseo").addEventListener('click', verPaseo);
@@ -28,8 +26,8 @@ function inicio(){
     document.querySelector("#btnCancelarSolicitud").addEventListener('click', cancelarSolicitud);
 
     //Botones paseador
-    //document.querySelector('#paseosPendientesNav').addEventListener('click', verPaseosPendientes);
-    //document.querySelector('#paseosAceptadosNav').addEventListener('click', verPaseosAceptados);
+    document.querySelector('#paseosPendientesNav').addEventListener('click', verPaseosPendientes);
+    document.querySelector('#paseosAceptadosNav').addEventListener('click', verPaseosAceptados);
     //document.querySelector('.aceptarContrataciones').addEventListener('click', procesarSolicitud);
 
 }
@@ -47,7 +45,7 @@ function mostrarSeccion(seccion){
 }
 
 //FUNCIONES DE SESION
-function funcLogin(){
+function funcLogin(){//Pronto, funciona
     let user = document.querySelector('#txtUserLogin').value;
     let pass = document.querySelector('#txtPassLogin').value;
 
@@ -56,12 +54,12 @@ function funcLogin(){
     if(log.access){
         logged = true;
         userActive = log.userActive
-        document.querySelector("#logout").style.display = 'block';
 
         ocultarSecciones('section');
         mostrarSeccion('nav');
 
         if(log.userActive.rol === 'cliente'){
+            document.querySelector("#logoutCliente").style.display = 'block';
             ocultarSecciones('.navPaseador');
             mostrarSeccion('interfazCliente')
             ocultarSecciones('.articleCliente');
@@ -69,6 +67,7 @@ function funcLogin(){
             verPaseo();
             
         }else{
+            document.querySelector("#logoutPaseador").style.display = 'block';
             ocultarSecciones('.navCliente');
             mostrarSeccion('interfazPaseador');
             mostrarSeccion('navPaseador');
@@ -83,7 +82,7 @@ function funcLogin(){
     }
 }
 
-function funcSignup(){
+function funcSignup(){//Pronto, funciona
     let user = document.querySelector('#txtUserSignup').value;
     let pass = document.querySelector('#txtPassSignup').value;
     let mascota = document.querySelector('#txtNombreSignup').value;
@@ -94,22 +93,27 @@ function funcSignup(){
     if(!log.registroExitoso){
         document.querySelector('#msjErrorLoginSignup').innerHTML = `${log.msj}`;
     } else{
-        //limpiar imputs y mostrar msj de registro exitoso
+        document.querySelector('#txtUserSignup').value = '';
+        document.querySelector('#txtPassSignup').value = '';
+        document.querySelector('#txtNombreSignup').value = '';
+        document.querySelector('#slcTamanoSignup').value = '0';
+        document.querySelector('#msjErrorLoginSignup').innerHTML = '';
+        alert('Te has registrado con exito')
     }
-
 }
 
-function logOut(){
+function logOut(){//Pronto, funciona
     logged = false;
     userActive = false;
-    document.querySelector("#logout").style.display = 'none';
+    document.querySelector("#logoutCliente").style.display = 'none';
+    document.querySelector("#logoutPaseador").style.display = 'none';
+
     ocultarSecciones('section');
     ocultarSecciones('nav');
     mostrarSeccion('login');
-
 }
 
-function funcSwitchLog(){
+function funcSwitchLog(){//Pronto, funciona
     let idBtn = this.getAttribute('id');
     ocultarSecciones('section');
     
@@ -130,10 +134,11 @@ function verPaseo(){
     mostrarPaseadores();
 }
 
-function verSolicitudes(){ //Pronto, a testear
+function verSolicitudes(){ //Pronto, funciona
     ocultarSecciones('.articleCliente');
     mostrarSeccion('paseosPendientes');
     ocultarSecciones('.solicitudes');
+    document.querySelector("#btnCancelarSolicitud").disabled = false;
     let datosContratacion = false;
 
     for(const contratacion of system.contrataciones){
@@ -146,6 +151,7 @@ function verSolicitudes(){ //Pronto, a testear
         mostrarSeccion('conSolicitud');
         document.querySelector("#estadoSolicitud").innerHTML = `El estado de tu solicitud es: ${datosContratacion.estado}`;
         document.querySelector("#paseadorSolicitud").innerHTML = `El paseo estara a cargo de ${datosContratacion.datosPaseador.nombre}`;
+        console.log(datosContratacion.estado)
         if(datosContratacion.estado === 'Aceptado'){
             document.querySelector("#btnCancelarSolicitud").disabled = true;
         }
@@ -154,8 +160,7 @@ function verSolicitudes(){ //Pronto, a testear
     }
 }
 
-function cancelarSolicitud(){ //Pronto, a testear
-    
+function cancelarSolicitud(){ //Pronto, funciona
     for(const contratacion of system.contrataciones){
         if(contratacion.datosCliente.id === userActive.id && contratacion.estado === 'Pendiente'){
             contratacion.estado = 'Cancelada';
@@ -167,7 +172,7 @@ function cancelarSolicitud(){ //Pronto, a testear
     }
 }
 
-function verPaseadores(){ //Pronto, a testear
+function verPaseadores(){ //Pronto, funciona
     ocultarSecciones('.articleCliente');
     mostrarSeccion('verPaseadores');
     document.querySelector('#tbodyCliente').innerHTML = ''
@@ -175,7 +180,7 @@ function verPaseadores(){ //Pronto, a testear
     for(const paseador of system.paseadores){
         let perros = 0;
         for(const contratacion of system.contrataciones){
-            if(contratacion.idPaseador === paseador.id){
+            if(contratacion.datosPaseador.id === paseador.id && contratacion.estado === 'Aceptado'){
                 perros++
             }
         }
@@ -188,31 +193,25 @@ function verPaseadores(){ //Pronto, a testear
     }
 }
 
-function mostrarPaseadores(){ //Pronto, dividir en funciones tamanoPerro y calcular cupos disponibles
+function mostrarPaseadores(){ //Pronto, funciona
     let paseadoresAptos = []
     
     for(const contratacion of system.contrataciones){
         if(contratacion.datosCliente.id === userActive.id){
-            if(contratacion.estado === 'Aceptado' || contratacion.estado === 'Pendiente')
-            document.querySelector('#btnProcesarSolicitud').disabled = true;
+            if(contratacion.estado === 'Aceptado' || contratacion.estado === 'Pendiente'){
+                document.querySelector('#btnProcesarSolicitud').disabled = true;
+            }
         }
     }
 
     for(const paseador of system.paseadores){
-        let cuposCompletos = 0;
-        let contratacionesPaseador = [];
-
-        for(const contratacion of system.contrataciones){
-            contratacionesPaseador.push(contratacion)
-            if(paseador.id === contratacion.datosPaseador.id && contratacion.estado === 'Aceptado'){
-                cuposCompletos += contratacion.tamanoPerro;
-            }
-        }
-
+        let cuposCompletos = system.obtenerCuposOcupados(paseador.id);
+        let contratacionesPaseador = system.obtenerPaseosConEstado(paseador.id ,'Aceptado');
+        
         if(cuposCompletos + userActive.tamanoPerro <= paseador.cupos){
             let apto = true;
             for(const contratacion of contratacionesPaseador){ 
-                if(contratacion.tamanoPerro + userActive.tamanoPerro === 5){
+                if(contratacion.datosCliente.tamanoPerro + userActive.tamanoPerro === 5){
                     apto = false; 
                 }
             }
@@ -229,7 +228,7 @@ function mostrarPaseadores(){ //Pronto, dividir en funciones tamanoPerro y calcu
     }
 }
 
-function solicitarPaseo(){
+function solicitarPaseo(){//Pronto, funciona
     contratacionId++;
     let idPaseador = Number(document.querySelector('#slcPaseador').value);
     let datosPaseador = system.buscarObjeto(system.paseadores, 'id', idPaseador);
@@ -239,22 +238,31 @@ function solicitarPaseo(){
 }
 
 //FUNCIONES DEL PASEADOR
-function verPaseosPendientes(){
+function verPaseosPendientes(){ //Pronto, funciona
     ocultarSecciones('.articlePaseador');
     mostrarSeccion('paseosPendientesPaseador');
 
     document.querySelector('#tbodyPendientes').innerHTML = '';
-    const contratacionesPaseador = system.paseadores[userActive.id].contrataciones;
-    for(const contratacion of contratacionesPaseador){
-        if(!contratacion.estado){
+    let existenContrataciones = false;
+
+    for(const contratacion of system.contrataciones){
+        if(contratacion.datosPaseador.id === userActive.id && contratacion.estado === 'Pendiente'){
+            existenContrataciones = true;
             document.querySelector('#tbodyPendientes').innerHTML += `
             <tr>
                 <td>${contratacion.id}</td>
-                <td>${contratacion.nombrePerro}</td>
-                <td>${contratacion.tamanoPerro}</td>
+                <td>${contratacion.datosCliente.nombrePerro}</td>
+                <td>${contratacion.datosCliente.tamanoPerro}</td>
                 <td><input type='button' class='aceptarContrataciones' id=${contratacion.id} value='Procesar'></td>
             </tr>`
         }
+    }
+
+    if(!existenContrataciones){
+        document.querySelector('#tbodyPendientes').innerHTML += `
+            <tr>
+                <td>No existen contrataciones pendientes</td><td></td><td></td>
+            </tr>`
     }
 
     let btnContrataciones = document.querySelectorAll('.aceptarContrataciones');
@@ -263,64 +271,70 @@ function verPaseosPendientes(){
     }
 }
 
-function procesarSolicitud(){
+function procesarSolicitud(){ //Pronto, funciona
     let id = Number(this.getAttribute('id'));
     
-    for(const contratacion of system.paseadores[userActive.id].contrataciones){
+    for(const contratacion of system.contrataciones){
         if(contratacion.id === id){
-            contratacion.estado = true;
+            contratacion.estado = 'Aceptado';
             alert(`Se ha procesado con exito la solicitud número ${contratacion.id}`)
         }
     }
 
-    limpiarListaTamanos();
+    limpiarLista();
 }
 
-function limpiarListaTamanos(){
+function limpiarLista(){//Pronto, funciona
+    let cuposOcupados = system.obtenerCuposOcupados(userActive.id);
     let tamano = 0;
-    let contratacionesLimpias = []
-    for(const contratacion of system.paseadores[userActive.id].contrataciones){
-        if(contratacion.tamanoPerro === 4 || contratacion.tamanoPerro === 1){
-            if(contratacion.estado === true){
-                tamano = contratacion.tamanoPerro;
+    for(const contratacion of system.contrataciones){
+        if(contratacion.datosPaseador.id === userActive.id && contratacion.estado === 'Aceptado'){
+            if(contratacion.datosCliente.tamanoPerro === 4 || contratacion.datosCliente.tamanoPerro === 1){
+                tamano = contratacion.datosCliente.tamanoPerro;
             }
+            
         }
     }
 
     if(tamano !== 0){
-        for(const contratacion of system.paseadores[userActive.id].contrataciones){
-            if(contratacion.tamanoPerro === 2 || contratacion.tamanoPerro === tamano){
-                contratacionesLimpias.push(contratacion);
+        for(const contratacion of system.contrataciones){
+            if(contratacion.datosPaseador.id === userActive.id){
+                if(contratacion.datosCliente.tamanoPerro !== 2 && contratacion.datosCliente.tamanoPerro !== tamano){
+                    contratacion.estado = 'Rechazada';
+                }
+
+                if(contratacion.estado === 'Pendiente' && contratacion.datosCliente.tamanoPerro + cuposOcupados > userActive.cupos){
+                    contratacion.estado = 'Rechazada';
+                }
             }
         }
-        system.paseadores[userActive.id].contrataciones = contratacionesLimpias;
+
     }
         
     verPaseosPendientes()
 }
 
-function verPaseosAceptados(){
+function verPaseosAceptados(){//Pronto, funciona
     ocultarSecciones('.articlePaseador');
     mostrarSeccion('paseosAceptadosPaseador');
-
-    let cuposOcupados = 0;
     document.querySelector('#tbodyAceptados').innerHTML = '';
+
+    let cuposOcupados = system.obtenerCuposOcupados(userActive.id);
+    let porcentajeOcupado = (cuposOcupados * 100) / userActive.cupos;
     
-    for(const contratacion of system.paseadores[userActive.id].contrataciones){
-        if(contratacion.estado){
-            cuposOcupados += contratacion.tamanoPerro;
-            document.querySelector("#tbodyAceptados").innerHTML += `<tr>
-            <td>${contratacion.nombrePerro}</td>
-            <td>${contratacion.tamanoPerro}</td>
-            </tr>`
+    for(const contratacion of system.contrataciones){
+        if(contratacion.datosPaseador.id === userActive.id){
+            if(contratacion.estado === 'Aceptado'){
+                document.querySelector("#tbodyAceptados").innerHTML += `<tr>
+                <td>${contratacion.datosCliente.nombrePerro}</td>
+                <td>${contratacion.datosCliente.tamanoPerro}</td>
+                </tr>`
+            }
         }
     }
-    let porcentajeOcupado = (cuposOcupados * 100) / userActive.cupos;
-
+    
     document.querySelector('#cuposOcupados').innerHTML = `Cupos Ocupados: ${cuposOcupados}`;
     document.querySelector("#cuposMaximo").innerHTML = `Limite de Cupos: ${userActive.cupos}`;
     document.querySelector("#porcentajeOcupado").innerHTML = `Ocupacion: ${porcentajeOcupado}%`;
-
 }
-
 

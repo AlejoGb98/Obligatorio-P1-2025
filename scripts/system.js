@@ -1,8 +1,8 @@
 class Sistema{
     constructor(){
         this.paseadores = [
-            new Paseador(1, 'mrodriguez', 'Mro12', 'Martin Rodriguez', 12,),
-            new Paseador(2, 'lpereira', 'Lp452', 'Luciano Pereira', 36),
+            new Paseador(1, 'mrodriguez', 'Mro12', 'Martin Rodriguez', 12),
+            new Paseador(2, 'lpereira', 'Lp452', 'Luciano Pereira', 20),
             new Paseador(3, 'mrojas', 'Mrj93', 'Martina Rojas', 12),
             new Paseador(4, 'lzapata', 'Lz334', 'Leonardo Zapata', 8),
             new Paseador(5, 'jpinola', 'Jp617', 'Juan Pinola', 7),
@@ -28,7 +28,7 @@ class Sistema{
             new Cliente(18, 'jfernandez', 'Jf925', 'Chiqui', 1),
             new Cliente(19, 'rramirez', 'Rr200', 'Morte', 4),
             new Cliente(20, 'jracedo', 'Jr492', 'Dora', 2)
-        ]
+        ];
         this.contrataciones = [
             new Contratacion(1, {'id': 2, 'usuario': 'lpereira', 'pass': 'Lp452', 'nombre': 'Luciano Pereira', 'cupos': 36, 'rol': 'paseador'},
                                 {'id': 10, 'usuario': 'rmorales', 'pass': 'Rm253', 'nombrePerro': 'Pancho', 'tamanoPerro': 2 }, 'Aceptado'),
@@ -59,7 +59,7 @@ class Sistema{
             new Contratacion(4, {'id': 4, 'usuario': 'lzapata', 'pass': 'Lz334', 'nombre': 'Leonardo Zapata', 'cupos': 8, 'rol': 'paseador'}, 
                                 {'id': 1, 'usuario': 'tramirez', 'pass': 'Tr908', 'nombrePerro': 'Milo', 'tamanoPerro': 2 }, 'Aceptado'),
             new Contratacion(2, {'id': 1, 'usuario': 'mrodriguez', 'pass': 'Mro12', 'nombre': 'Martin Rodriguez', 'cupos': 12, 'rol': 'paseador'},
-                                {'id': 12, 'usuario': 'mramirez', 'pass': 'Mr406', 'nombrePerro': 'Rosqui', 'tamanoPerro': 1 },'Pendiente')
+                                {'id': 12, 'usuario': 'mramirez', 'pass': 'Mr406', 'nombrePerro': 'Rosqui', 'tamanoPerro': 1 },'Aceptado')
         ]
     }
 
@@ -89,6 +89,7 @@ class Sistema{
         let registroExitoso = false;
         let usuarioExiste = false;
         let msj = 'Debe ingresar un usuario';
+        let idClienteNuevo = system.clientes.length + 1;
 
         if(user.length > 0){
             for(let i = 0; i < system.clientes.length; i++){
@@ -102,7 +103,7 @@ class Sistema{
                 if(this.comprobarContrasena(pass)){
                     if(mascota.length > 0){
                         if(tamano > 0){
-                            this.clientes.push(new Cliente(user, pass, mascota, tamano))
+                            this.clientes.push(new Cliente(idClienteNuevo, user, pass, mascota, tamano))
                             registroExitoso = true;
                             msj = 'Registro exitoso.'
                         } else{
@@ -148,5 +149,28 @@ class Sistema{
             }
         }
         return false;
+    }
+
+    obtenerPaseosConEstado(idPaseador, estado){
+        let paseosConEstado = [];
+        for(const contratacion of this.contrataciones){
+            if(idPaseador === contratacion.datosPaseador.id && contratacion.estado === estado){
+                paseosConEstado.push(contratacion)
+            }
+        }
+
+        return paseosConEstado;
+    }
+
+    obtenerCuposOcupados(idPaseador){
+        let cuposOcupados = 0;
+
+        for(const contratacion of this.contrataciones){
+            if(idPaseador === contratacion.datosPaseador.id && contratacion.estado === 'Aceptado'){
+                cuposOcupados += contratacion.datosCliente.tamanoPerro;
+            }
+        }
+
+        return cuposOcupados
     }
 }
