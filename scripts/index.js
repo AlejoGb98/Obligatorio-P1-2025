@@ -8,7 +8,7 @@ let contratacionId = 15;
 
 function inicio(){
     ocultarSecciones('section');
-    ocultarSecciones('#nav');
+    ocultarSecciones('.nav');
     document.querySelector("#login").style.display = 'block';
 
     document.querySelector('#btnLogin').addEventListener('click', funcLogin);
@@ -28,7 +28,7 @@ function inicio(){
     //Botones paseador
     document.querySelector('#paseosPendientesNav').addEventListener('click', verPaseosPendientes);
     document.querySelector('#paseosAceptadosNav').addEventListener('click', verPaseosAceptados);
-    //document.querySelector('.aceptarContrataciones').addEventListener('click', procesarSolicitud);
+    document.querySelector('.aceptarContrataciones').addEventListener('click', procesarSolicitud);
 
 }
 
@@ -56,11 +56,10 @@ function funcLogin(){//Pronto, funciona
         userActive = log.userActive
 
         ocultarSecciones('section');
-        mostrarSeccion('nav');
 
         if(log.userActive.rol === 'cliente'){
             document.querySelector("#logoutCliente").style.display = 'block';
-            ocultarSecciones('.navPaseador');
+            mostrarSeccion('navCliente')
             mostrarSeccion('interfazCliente')
             ocultarSecciones('.articleCliente');
             mostrarSeccion('solicitarPaseo');
@@ -68,7 +67,7 @@ function funcLogin(){//Pronto, funciona
             
         }else{
             document.querySelector("#logoutPaseador").style.display = 'block';
-            ocultarSecciones('.navCliente');
+            mostrarSeccion('navPaseador')
             mostrarSeccion('interfazPaseador');
             mostrarSeccion('navPaseador');
             verPaseosPendientes();
@@ -109,7 +108,7 @@ function logOut(){//Pronto, funciona
     document.querySelector("#logoutPaseador").style.display = 'none';
 
     ocultarSecciones('section');
-    ocultarSecciones('nav');
+    ocultarSecciones('.nav');
     mostrarSeccion('login');
 }
 
