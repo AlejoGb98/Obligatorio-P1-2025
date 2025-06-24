@@ -173,4 +173,22 @@ class Sistema{
 
         return cuposOcupados
     }
+
+    obtenerEstadoContratacion(idCliente){
+        let estado = false;
+        for(const contratacion of this.contrataciones){
+            if(contratacion.datosCliente.id === idCliente){
+                estado = contratacion.estado; 
+            }
+        }
+        return estado
+    }    
+    
+    cancelarContratacion(idCliente){
+        for(const contratacion of system.contrataciones){
+            if(contratacion.datosCliente.id === idCliente && contratacion.estado === 'Pendiente'){
+                contratacion.estado = 'Cancelada';
+            }
+        }
+    }
 }

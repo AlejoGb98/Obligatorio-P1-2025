@@ -115,7 +115,8 @@ function logOut(){//Pronto, funciona
 function funcSwitchLog(){//Pronto, funciona
     let idBtn = this.getAttribute('id');
     ocultarSecciones('section');
-    
+    document.querySelector('#msjErrorLogin').innerHTML = ``;
+    document.querySelector('#msjErrorLoginSignup').innerHTML = ``;
     switch(idBtn){
         case 'btnToLogin' : mostrarSeccion('login');
             break;
@@ -150,9 +151,12 @@ function verSolicitudes(){ //Pronto, funciona
         mostrarSeccion('conSolicitud');
         document.querySelector("#estadoSolicitud").innerHTML = `El estado de tu solicitud es: ${datosContratacion.estado}`;
         document.querySelector("#paseadorSolicitud").innerHTML = `El paseo estara a cargo de ${datosContratacion.datosPaseador.nombre}`;
-        console.log(datosContratacion.estado)
-        if(datosContratacion.estado === 'Aceptado'){
+        if(datosContratacion.estado === 'Aceptado' || datosContratacion.estado === 'Rechazado'){
             document.querySelector("#btnCancelarSolicitud").disabled = true;
+            
+            if(datosContratacion.estado === 'Rechazado'){
+                document.querySelector("#paseadorSolicitud").innerHTML = `Elige otro paseador.`;
+            }
         }
     }else{
         mostrarSeccion('sinSolicitud')
@@ -160,15 +164,15 @@ function verSolicitudes(){ //Pronto, funciona
 }
 
 function cancelarSolicitud(){ //Pronto, funciona
-    for(const contratacion of system.contrataciones){
-        if(contratacion.datosCliente.id === userActive.id && contratacion.estado === 'Pendiente'){
-            contratacion.estado = 'Cancelada';
-            alert('Se ha cancelado la solicitud.')
-            ocultarSecciones('.solicitudes');
-            mostrarSeccion('sinSolicitud')
-            document.querySelector('#btnProcesarSolicitud').disabled = false;
-        }
+    let estado = system.obtenerEstadoContratacion(userActive.id);
+    if(estado === 'Pendiente'){
+        alert('Se ha cancelado la solicitud.')
+        ocultarSecciones('.solicitudes');
+        mostrarSeccion('sinSolicitud')
+        document.querySelector('#btnProcesarSolicitud').disabled = false;
+        system.cancelarContratacion(userActive.id);
     }
+    
 }
 
 function verPaseadores(){ //Pronto, funciona
@@ -194,13 +198,16 @@ function verPaseadores(){ //Pronto, funciona
 
 function mostrarPaseadores(){ //Pronto, funciona
     let paseadoresAptos = []
-    
-    for(const contratacion of system.contrataciones){
-        if(contratacion.datosCliente.id === userActive.id){
-            if(contratacion.estado === 'Aceptado' || contratacion.estado === 'Pendiente'){
-                document.querySelector('#btnProcesarSolicitud').disabled = true;
-            }
-        }
+
+    let estado = system.obtenerEstadoContratacion(userActive.id);
+
+    switch(estado){
+        case 'Aceptado':
+        case 'Pendiente':
+            document.querySelector('#btnProcesarSolicitud').disabled = true;
+            break;
+        default: document.querySelector('#btnProcesarSolicitud').disabled = false;
+            break;  
     }
 
     for(const paseador of system.paseadores){
@@ -286,6 +293,7 @@ function procesarSolicitud(){ //Pronto, funciona
 function limpiarLista(){//Pronto, funciona
     let cuposOcupados = system.obtenerCuposOcupados(userActive.id);
     let tamano = 0;
+
     for(const contratacion of system.contrataciones){
         if(contratacion.datosPaseador.id === userActive.id && contratacion.estado === 'Aceptado'){
             if(contratacion.datosCliente.tamanoPerro === 4 || contratacion.datosCliente.tamanoPerro === 1){
