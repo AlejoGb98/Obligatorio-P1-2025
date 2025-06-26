@@ -45,7 +45,7 @@ function mostrarSeccion(seccion){
 }
 
 //FUNCIONES DE SESION
-function funcLogin(){//Pronto, funciona
+function funcLogin(){
     let user = document.querySelector('#txtUserLogin').value;
     let pass = document.querySelector('#txtPassLogin').value;
 
@@ -81,7 +81,7 @@ function funcLogin(){//Pronto, funciona
     }
 }
 
-function funcSignup(){//Pronto, funciona
+function funcSignup(){
     let user = document.querySelector('#txtUserSignup').value;
     let pass = document.querySelector('#txtPassSignup').value;
     let mascota = document.querySelector('#txtNombreSignup').value;
@@ -101,7 +101,7 @@ function funcSignup(){//Pronto, funciona
     }
 }
 
-function logOut(){//Pronto, funciona
+function logOut(){
     logged = false;
     userActive = false;
     document.querySelector("#logoutCliente").style.display = 'none';
@@ -112,7 +112,7 @@ function logOut(){//Pronto, funciona
     mostrarSeccion('login');
 }
 
-function funcSwitchLog(){//Pronto, funciona
+function funcSwitchLog(){
     let idBtn = this.getAttribute('id');
     ocultarSecciones('section');
     document.querySelector('#msjErrorLogin').innerHTML = ``;
@@ -134,7 +134,7 @@ function verPaseo(){
     mostrarPaseadores();
 }
 
-function verSolicitudes(){ //Pronto, funciona
+function verSolicitudes(){ 
     ocultarSecciones('.articleCliente');
     mostrarSeccion('paseosPendientes');
     ocultarSecciones('.solicitudes');
@@ -151,10 +151,10 @@ function verSolicitudes(){ //Pronto, funciona
         mostrarSeccion('conSolicitud');
         document.querySelector("#estadoSolicitud").innerHTML = `El estado de tu solicitud es: ${datosContratacion.estado}`;
         document.querySelector("#paseadorSolicitud").innerHTML = `El paseo estara a cargo de ${datosContratacion.datosPaseador.nombre}`;
-        if(datosContratacion.estado === 'Aceptado' || datosContratacion.estado === 'Rechazado'){
+        if(datosContratacion.estado === 'Aceptado' || datosContratacion.estado === 'Rechazada'){
             document.querySelector("#btnCancelarSolicitud").disabled = true;
             
-            if(datosContratacion.estado === 'Rechazado'){
+            if(datosContratacion.estado === 'Rechazada'){
                 document.querySelector("#paseadorSolicitud").innerHTML = `Elige otro paseador.`;
             }
         }
@@ -163,7 +163,7 @@ function verSolicitudes(){ //Pronto, funciona
     }
 }
 
-function cancelarSolicitud(){ //Pronto, funciona
+function cancelarSolicitud(){ 
     let estado = system.obtenerEstadoContratacion(userActive.id);
     if(estado === 'Pendiente'){
         alert('Se ha cancelado la solicitud.')
@@ -175,7 +175,7 @@ function cancelarSolicitud(){ //Pronto, funciona
     
 }
 
-function verPaseadores(){ //Pronto, funciona
+function verPaseadores(){ 
     ocultarSecciones('.articleCliente');
     mostrarSeccion('verPaseadores');
     document.querySelector('#tbodyCliente').innerHTML = ''
@@ -196,7 +196,7 @@ function verPaseadores(){ //Pronto, funciona
     }
 }
 
-function mostrarPaseadores(){ //Pronto, funciona
+function mostrarPaseadores(){ 
     let paseadoresAptos = []
 
     let estado = system.obtenerEstadoContratacion(userActive.id);
@@ -234,7 +234,7 @@ function mostrarPaseadores(){ //Pronto, funciona
     }
 }
 
-function solicitarPaseo(){//Pronto, funciona
+function solicitarPaseo(){
     contratacionId++;
     let idPaseador = Number(document.querySelector('#slcPaseador').value);
     let datosPaseador = system.buscarObjeto(system.paseadores, 'id', idPaseador);
@@ -244,7 +244,7 @@ function solicitarPaseo(){//Pronto, funciona
 }
 
 //FUNCIONES DEL PASEADOR
-function verPaseosPendientes(){ //Pronto, funciona
+function verPaseosPendientes(){ 
     ocultarSecciones('.articlePaseador');
     mostrarSeccion('paseosPendientesPaseador');
 
@@ -277,7 +277,7 @@ function verPaseosPendientes(){ //Pronto, funciona
     }
 }
 
-function procesarSolicitud(){ //Pronto, funciona
+function procesarSolicitud(){ 
     let id = Number(this.getAttribute('id'));
     
     for(const contratacion of system.contrataciones){
@@ -290,7 +290,7 @@ function procesarSolicitud(){ //Pronto, funciona
     limpiarLista();
 }
 
-function limpiarLista(){//Pronto, funciona
+function limpiarLista(){
     let cuposOcupados = system.obtenerCuposOcupados(userActive.id);
     let tamano = 0;
 
@@ -321,7 +321,7 @@ function limpiarLista(){//Pronto, funciona
     verPaseosPendientes()
 }
 
-function verPaseosAceptados(){//Pronto, funciona
+function verPaseosAceptados(){
     ocultarSecciones('.articlePaseador');
     mostrarSeccion('paseosAceptadosPaseador');
     document.querySelector('#tbodyAceptados').innerHTML = '';
