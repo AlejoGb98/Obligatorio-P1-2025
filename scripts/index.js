@@ -238,8 +238,8 @@ function solicitarPaseo(){//Pronto, funciona
     contratacionId++;
     let idPaseador = Number(document.querySelector('#slcPaseador').value);
     let datosPaseador = system.buscarObjeto(system.paseadores, 'id', idPaseador);
-    
-    system.contrataciones.push(new Contratacion(contratacionId, datosPaseador, userActive, 'Pendiente'));
+
+    system.agregarContratacion(new Contratacion(contratacionId, datosPaseador, userActive, 'Pendiente'));
     document.querySelector('#btnProcesarSolicitud').disabled = true;
 }
 

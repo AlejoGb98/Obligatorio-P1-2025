@@ -191,4 +191,8 @@ class Sistema{
             }
         }
     }
+    
+    agregarContratacion(contratacion){
+        this.contrataciones.push(contratacion);
+    }
 }
