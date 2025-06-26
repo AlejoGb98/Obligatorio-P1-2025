@@ -48,12 +48,12 @@ function mostrarSeccion(seccion){
 function funcLogin(){
     let user = document.querySelector('#txtUserLogin').value;
     let pass = document.querySelector('#txtPassLogin').value;
-
     let log = system.login(user, pass);
 
     if(log.access){
         logged = true;
         userActive = log.userActive
+        document.querySelector('#msjErrorLogin').innerHTML = ``;
 
         ocultarSecciones('section');
 
