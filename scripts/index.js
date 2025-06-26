@@ -290,10 +290,11 @@ function procesarSolicitud(){
     limpiarLista();
 }
 
-function limpiarLista(){
+function limpiarLista(){ // funcion que limpia la tabla en base a contrataciones ya aceptadas
     let cuposOcupados = system.obtenerCuposOcupados(userActive.id);
     let tamano = 0;
 
+    // en caso de que tamanoPerro = 1 o 4 guardamos el tamano para comparar en if abajo
     for(const contratacion of system.contrataciones){
         if(contratacion.datosPaseador.id === userActive.id && contratacion.estado === 'Aceptado'){
             if(contratacion.datosCliente.tamanoPerro === 4 || contratacion.datosCliente.tamanoPerro === 1){
@@ -303,20 +304,21 @@ function limpiarLista(){
         }
     }
 
-    if(tamano !== 0){
-        for(const contratacion of system.contrataciones){
-            if(contratacion.datosPaseador.id === userActive.id){
-                if(contratacion.datosCliente.tamanoPerro !== 2 && contratacion.datosCliente.tamanoPerro !== tamano){
-                    contratacion.estado = 'Rechazada';
+    for(const contratacion of system.contrataciones){
+        if(contratacion.datosPaseador.id === userActive.id){
+                // si existe una contratacion aceptada con tamano 4 eliminamos la de tamano 1 pendiente y viceversa
+                if(tamano !== 0){
+                    if(contratacion.datosCliente.tamanoPerro !== 2 && contratacion.datosCliente.tamanoPerro !== tamano){
+                        contratacion.estado = 'Rechazada';
+                    }
                 }
 
+                // si la contratacion pendiente excede los cupos disponibles, se rechaza
                 if(contratacion.estado === 'Pendiente' && contratacion.datosCliente.tamanoPerro + cuposOcupados > userActive.cupos){
                     contratacion.estado = 'Rechazada';
                 }
             }
         }
-
-    }
         
     verPaseosPendientes()
 }

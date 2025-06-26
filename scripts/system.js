@@ -63,7 +63,7 @@ class Sistema{
         ]
     }
 
-    login(user, pass){
+    login(user, pass){ // funcion que usamos al iniciar sesion
         let userActive = null;
         let access = false;
         let msj = 'El usuario ingresado no es valido.';
@@ -85,7 +85,7 @@ class Sistema{
         return {access, userActive, msj}
     }
 
-    signup(user, pass, mascota, tamano){
+    signup(user, pass, mascota, tamano){ // funcion que usamos para registrarse
         let registroExitoso = false;
         let usuarioExiste = false;
         let msj = 'Debe ingresar un usuario';
@@ -120,7 +120,7 @@ class Sistema{
         return {registroExitoso, msj}
     }
     
-    comprobarContrasena(pass){
+    comprobarContrasena(pass){ // funcion para comprobar que la contrasena sea valida
         let mayus = false;
         let minus = false;
         let num = false;
@@ -142,7 +142,7 @@ class Sistema{
         return false;
     }
 
-    buscarObjeto(array, parametro, busqueda){
+    buscarObjeto(array, parametro, busqueda){ // funcion que busca y retorna un objeto
         for(let i = 0; i < array.length; i++){
             if(array[i][parametro] === busqueda){
                 return array[i]
